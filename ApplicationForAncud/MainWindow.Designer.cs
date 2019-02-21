@@ -39,20 +39,26 @@
             this.tableLayoutPanel1.SetColumnSpan(this.dgvFileCRC, 3);
             this.dgvFileCRC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFileCRC.Location = new System.Drawing.Point(3, 3);
+            this.dgvFileCRC.MultiSelect = false;
             this.dgvFileCRC.Name = "dgvFileCRC";
+            this.dgvFileCRC.ReadOnly = true;
             this.dgvFileCRC.RowHeadersVisible = false;
+            this.dgvFileCRC.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFileCRC.Size = new System.Drawing.Size(659, 284);
             this.dgvFileCRC.TabIndex = 0;
+            this.dgvFileCRC.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFileCRC_CellContentClick);
             // 
             // File
             // 
             this.File.HeaderText = "File";
             this.File.Name = "File";
+            this.File.ReadOnly = true;
             // 
             // CRC32
             // 
             this.CRC32.HeaderText = "CRC32";
             this.CRC32.Name = "CRC32";
+            this.CRC32.ReadOnly = true;
             // 
             // addButton
             // 
@@ -94,7 +100,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 326);
             this.tableLayoutPanel1.TabIndex = 3;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // MainWindow
             // 

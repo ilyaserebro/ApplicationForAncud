@@ -21,33 +21,30 @@ namespace ApplicationForAncud
 
                 dgvFileCRC.Rows[rowNumber].Cells[0].Value = OPF.FileName;
                 dgvFileCRC.Rows[rowNumber].Cells[1].Value = CRCTools.CalculateCRC(OPF.FileName);
-                MessageBox.Show("File " + OPF.FileName + " added.", "Add", MessageBoxButtons.OK);
+                dgvFileCRC.CurrentCell = null;
             }
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            if (dgvFileCRC.CurrentRow == null)
-            {
-                MessageBox.Show("Choose row!");
-                return;
-            }
-
             int deleteNumber = dgvFileCRC.SelectedCells[0].RowIndex;
             string fileName = dgvFileCRC.SelectedCells[0].Value.ToString();
 
             dgvFileCRC.Rows.RemoveAt(deleteNumber);
-            MessageBox.Show("File " + fileName + " deleted.", "Delete", MessageBoxButtons.OK);
+            deleteButton.Enabled = false;
+            dgvFileCRC.CurrentCell = null;
         }
 
         private void AppForAncud_Load(object sender, EventArgs e)
         {
-
+            deleteButton.Enabled = false;
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+
+        private void dgvFileCRC_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            deleteButton.Enabled = (dgvFileCRC.CurrentRow != null);
         }
+
     }
 }
