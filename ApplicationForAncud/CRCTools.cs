@@ -1,4 +1,6 @@
-﻿namespace ApplicationForAncud
+﻿using System;
+
+namespace ApplicationForAncud
 {
     class CRCTools
     {
@@ -36,7 +38,15 @@
             const int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
             uint result = 0xFFFFFFFF;
-            System.IO.FileStream stream = System.IO.File.OpenRead(fileName);
+            System.IO.FileStream stream;
+            try
+            {
+                 stream = System.IO.File.OpenRead(fileName);
+            }
+            catch(Exception exc)
+            {
+                return result;
+            }
             int count = stream.Read(buffer, 0, bufferSize);
 
             while (count > 0)

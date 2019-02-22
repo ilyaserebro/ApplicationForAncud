@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Threading;
 
+
 namespace ApplicationForAncud
 {
     public partial class MainWindow : Form
@@ -16,31 +17,44 @@ namespace ApplicationForAncud
             OpenFileDialog OPF = new OpenFileDialog();
 
             OPF.Filter = "jpg|*.jpg|txt|*.txt|mkv|*.mkv";
+            OPF.Multiselect = true;
+
             if (OPF.ShowDialog() == DialogResult.OK)
             {
                 Thread add = new Thread(AddNote);
-                add.Start(OPF.FileName);
+                add.Start(OPF.FileNames);
             }
         }
 
-        private void AddNote(object fileName)
+        private void AddNote(object fileNames)
         {
-            string sFileName = (string)fileName;
-            int rowNumber = dgvFileCRC.Rows.Add();
+            string[] files = (string[])fileNames;
+            foreach (var file in files)
+            {
+                uint resultCRC = CRCTools.CalculateCRC(file);
 
+                if (resultCRC == 0xFFFFFFFF)
+                {
+                    MessageBox.Show("Failed to read file: " + file, "Error");
+                    continue;
+                }
+
+                int rowNumber = dgvFileCRC.Rows.Add();
+
+                dgvFileCRC.Rows[rowNumber].Cells[0].Value = file;
+                dgvFileCRC.Rows[rowNumber].Cells[1].Value = resultCRC;
+            }
             dgvFileCRC.CurrentCell = null;
             deleteButton.Enabled = false;
-            dgvFileCRC.Rows[rowNumber].Cells[0].Value = sFileName;
-            dgvFileCRC.Rows[rowNumber].Cells[1].Value = CRCTools.CalculateCRC(sFileName);
-
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            int deleteNumber = dgvFileCRC.SelectedCells[0].RowIndex;
-            string fileName = dgvFileCRC.SelectedCells[0].Value.ToString();
+            foreach (DataGridViewRow row in dgvFileCRC.SelectedRows)
+            {
+                dgvFileCRC.Rows.RemoveAt(row.Index);
+            }
 
-            dgvFileCRC.Rows.RemoveAt(deleteNumber);
             deleteButton.Enabled = false;
             dgvFileCRC.CurrentCell = null;
         }
@@ -51,9 +65,9 @@ namespace ApplicationForAncud
         }
 
 
-        private void dgvFileCRC_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvFileCRC_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            deleteButton.Enabled = (dgvFileCRC.CurrentCell != null);
+            deleteButton.Enabled = (dgvFileCRC.SelectedRows != null);
         }
 
     }
