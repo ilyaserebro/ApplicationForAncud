@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace ApplicationForAncud
 {
@@ -14,15 +15,24 @@ namespace ApplicationForAncud
         {
             OpenFileDialog OPF = new OpenFileDialog();
 
-            OPF.Filter = "jpg|*.jpg|txt|*.txt";
+            OPF.Filter = "jpg|*.jpg|txt|*.txt|mkv|*.mkv";
             if (OPF.ShowDialog() == DialogResult.OK)
             {
-                int rowNumber = dgvFileCRC.Rows.Add();
-
-                dgvFileCRC.Rows[rowNumber].Cells[0].Value = OPF.FileName;
-                dgvFileCRC.Rows[rowNumber].Cells[1].Value = CRCTools.CalculateCRC(OPF.FileName);
-                dgvFileCRC.CurrentCell = null;
+                Thread add = new Thread(AddNote);
+                add.Start(OPF.FileName);
             }
+        }
+
+        private void AddNote(object fileName)
+        {
+            string sFileName = (string)fileName;
+            int rowNumber = dgvFileCRC.Rows.Add();
+
+            dgvFileCRC.CurrentCell = null;
+            deleteButton.Enabled = false;
+            dgvFileCRC.Rows[rowNumber].Cells[0].Value = sFileName;
+            dgvFileCRC.Rows[rowNumber].Cells[1].Value = CRCTools.CalculateCRC(sFileName);
+
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -43,7 +53,7 @@ namespace ApplicationForAncud
 
         private void dgvFileCRC_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            deleteButton.Enabled = (dgvFileCRC.CurrentRow != null);
+            deleteButton.Enabled = (dgvFileCRC.CurrentCell != null);
         }
 
     }
