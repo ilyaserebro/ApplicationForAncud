@@ -24,8 +24,9 @@
             this.columnFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnCRC32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addButton = new System.Windows.Forms.Button();
-            this.deleteButton = new System.Windows.Forms.Button();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.helpButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFileCRC)).BeginInit();
             this.tlpMain.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +48,7 @@
             this.dgvFileCRC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnFile,
             this.columnCRC32});
-            this.tlpMain.SetColumnSpan(this.dgvFileCRC, 3);
+            this.tlpMain.SetColumnSpan(this.dgvFileCRC, 4);
             this.dgvFileCRC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFileCRC.EnableHeadersVisualStyles = false;
             this.dgvFileCRC.Location = new System.Drawing.Point(3, 3);
@@ -84,6 +85,27 @@
             this.addButton.UseVisualStyleBackColor = true;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
+            // tlpMain
+            // 
+            this.tlpMain.ColumnCount = 4;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tlpMain.Controls.Add(this.dgvFileCRC, 0, 0);
+            this.tlpMain.Controls.Add(this.deleteButton, 3, 1);
+            this.tlpMain.Controls.Add(this.addButton, 2, 1);
+            this.tlpMain.Controls.Add(this.helpButton, 0, 1);
+            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpMain.Location = new System.Drawing.Point(0, 0);
+            this.tlpMain.Margin = new System.Windows.Forms.Padding(10);
+            this.tlpMain.Name = "tlpMain";
+            this.tlpMain.RowCount = 2;
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tlpMain.Size = new System.Drawing.Size(665, 326);
+            this.tlpMain.TabIndex = 3;
+            // 
             // deleteButton
             // 
             this.deleteButton.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -95,24 +117,15 @@
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
-            // tlpMain
+            // helpButton
             // 
-            this.tlpMain.ColumnCount = 3;
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpMain.Controls.Add(this.dgvFileCRC, 0, 0);
-            this.tlpMain.Controls.Add(this.deleteButton, 2, 1);
-            this.tlpMain.Controls.Add(this.addButton, 1, 1);
-            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpMain.Location = new System.Drawing.Point(0, 0);
-            this.tlpMain.Margin = new System.Windows.Forms.Padding(10);
-            this.tlpMain.Name = "tlpMain";
-            this.tlpMain.RowCount = 2;
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tlpMain.Size = new System.Drawing.Size(665, 326);
-            this.tlpMain.TabIndex = 3;
+            this.helpButton.Location = new System.Drawing.Point(3, 293);
+            this.helpButton.Name = "helpButton";
+            this.helpButton.Size = new System.Drawing.Size(94, 30);
+            this.helpButton.TabIndex = 3;
+            this.helpButton.Text = "Help";
+            this.helpButton.UseVisualStyleBackColor = true;
+            this.helpButton.Click += new System.EventHandler(this.helpButton_Click);
             // 
             // MainWindow
             // 
@@ -133,10 +146,11 @@
 
         private System.Windows.Forms.DataGridView dgvFileCRC;
         private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnFile;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnCRC32;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.Button helpButton;
     }
 }
 

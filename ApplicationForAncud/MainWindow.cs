@@ -7,6 +7,10 @@ namespace ApplicationForAncud
     public partial class MainWindow : Form
     {
         const string computing = "Computing...";
+        const string help = "Click \"Add\" and select file(s) to add it in table " +
+                            "and calculate CRC. \n" +
+                            "If You want delete note(s) from table, select note(s) and " +
+                            "click \"Delete\". ";
 
         public MainWindow()
         {
@@ -30,7 +34,7 @@ namespace ApplicationForAncud
         private void AddNote(object fileNames)
         {
             string[] files = (string[])fileNames;
-            
+            //сначала добавляем файлы со статусом "Computing"
             foreach (var file in files)
             {
                 int rowIndex = dgvFileCRC.Rows.Add();
@@ -40,7 +44,7 @@ namespace ApplicationForAncud
                 dgvFileCRC.CurrentCell = null;
                 deleteButton.Enabled = false;
             }
-
+            //обновляем статус
             foreach (var file in files)
             {
                 int rowIndex = FindRowIndex(file);
@@ -68,8 +72,6 @@ namespace ApplicationForAncud
                     dgvFileCRC.Rows[rowIndex].Cells[1].Value = resultCRC;
                 }
             }
-
-
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -107,5 +109,9 @@ namespace ApplicationForAncud
             deleteButton.Enabled = (dgvFileCRC.SelectedRows != null);
         }
 
+        private void helpButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(help, "Help");
+        }
     }
 }
