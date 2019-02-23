@@ -18,12 +18,14 @@
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvFileCRC = new System.Windows.Forms.DataGridView();
+            this.columnFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnCRC32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
-            this.columnFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnCRC32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFileCRC)).BeginInit();
             this.tlpMain.SuspendLayout();
             this.SuspendLayout();
@@ -31,15 +33,23 @@
             // dgvFileCRC
             // 
             this.dgvFileCRC.AllowUserToAddRows = false;
-            this.dgvFileCRC.AllowUserToResizeColumns = false;
             this.dgvFileCRC.AllowUserToResizeRows = false;
             this.dgvFileCRC.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Gray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvFileCRC.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFileCRC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFileCRC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnFile,
             this.columnCRC32});
             this.tlpMain.SetColumnSpan(this.dgvFileCRC, 3);
             this.dgvFileCRC.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvFileCRC.EnableHeadersVisualStyles = false;
             this.dgvFileCRC.Location = new System.Drawing.Point(3, 3);
             this.dgvFileCRC.Name = "dgvFileCRC";
             this.dgvFileCRC.ReadOnly = true;
@@ -48,6 +58,20 @@
             this.dgvFileCRC.Size = new System.Drawing.Size(659, 284);
             this.dgvFileCRC.TabIndex = 0;
             this.dgvFileCRC.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFileCRC_CellClick);
+            // 
+            // columnFile
+            // 
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            this.columnFile.DefaultCellStyle = dataGridViewCellStyle2;
+            this.columnFile.HeaderText = "File";
+            this.columnFile.Name = "columnFile";
+            this.columnFile.ReadOnly = true;
+            // 
+            // columnCRC32
+            // 
+            this.columnCRC32.HeaderText = "CRC32";
+            this.columnCRC32.Name = "columnCRC32";
+            this.columnCRC32.ReadOnly = true;
             // 
             // addButton
             // 
@@ -89,18 +113,6 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tlpMain.Size = new System.Drawing.Size(665, 326);
             this.tlpMain.TabIndex = 3;
-            // 
-            // columnFile
-            // 
-            this.columnFile.HeaderText = "File";
-            this.columnFile.Name = "columnFile";
-            this.columnFile.ReadOnly = true;
-            // 
-            // columnCRC32
-            // 
-            this.columnCRC32.HeaderText = "CRC32";
-            this.columnCRC32.Name = "columnCRC32";
-            this.columnCRC32.ReadOnly = true;
             // 
             // MainWindow
             // 

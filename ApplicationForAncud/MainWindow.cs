@@ -2,11 +2,12 @@
 using System.Windows.Forms;
 using System.Threading;
 
-
 namespace ApplicationForAncud
 {
     public partial class MainWindow : Form
     {
+        const string computing = "Computing...";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,23 +30,46 @@ namespace ApplicationForAncud
         private void AddNote(object fileNames)
         {
             string[] files = (string[])fileNames;
+            
             foreach (var file in files)
             {
+                int rowIndex = dgvFileCRC.Rows.Add();
+
+                dgvFileCRC.Rows[rowIndex].Cells[0].Value = file;
+                dgvFileCRC.Rows[rowIndex].Cells[1].Value = computing;
+                dgvFileCRC.CurrentCell = null;
+                deleteButton.Enabled = false;
+            }
+
+            foreach (var file in files)
+            {
+                int rowIndex = FindRowIndex(file);
+                if (rowIndex == -1)
+                {
+                    continue;
+                }
+
                 uint resultCRC = CRCTools.CalculateCRC(file);
+
+                rowIndex = FindRowIndex(file);
+                if (rowIndex == -1)
+                {
+                    continue;
+                }
 
                 if (resultCRC == 0xFFFFFFFF)
                 {
                     MessageBox.Show("Failed to read file: " + file, "Error");
+                    dgvFileCRC.Rows.RemoveAt(rowIndex);
                     continue;
                 }
-
-                int rowNumber = dgvFileCRC.Rows.Add();
-
-                dgvFileCRC.Rows[rowNumber].Cells[0].Value = file;
-                dgvFileCRC.Rows[rowNumber].Cells[1].Value = resultCRC;
+                else
+                {
+                    dgvFileCRC.Rows[rowIndex].Cells[1].Value = resultCRC;
+                }
             }
-            dgvFileCRC.CurrentCell = null;
-            deleteButton.Enabled = false;
+
+
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -57,6 +81,19 @@ namespace ApplicationForAncud
 
             deleteButton.Enabled = false;
             dgvFileCRC.CurrentCell = null;
+        }
+
+        private int FindRowIndex(string file)
+        {
+            foreach (DataGridViewRow row in dgvFileCRC.Rows)
+            {
+                if(row.Cells[0].Value.ToString() == file &&
+                    row.Cells[1].Value.ToString() == computing)
+                {
+                    return row.Index;
+                }
+            }
+            return -1;
         }
 
         private void AppForAncud_Load(object sender, EventArgs e)
