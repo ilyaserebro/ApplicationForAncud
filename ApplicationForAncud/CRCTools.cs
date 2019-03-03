@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace ApplicationForAncud
 {
@@ -33,7 +34,7 @@ namespace ApplicationForAncud
             }
         }
 
-        public static uint CalculateCRC(string fileName)
+        public static uint CalculateCRC(string fileName, CancellationToken cancelToken)
         {
             const int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
@@ -53,6 +54,12 @@ namespace ApplicationForAncud
 
             while (count > 0)
             {
+                if (cancelToken.IsCancellationRequested)
+                {
+                    return 0;
+                    //throw new Exception("Operation was canceled");
+                }
+
                 for (int i = 0; i < count; i++)
                 {
                     result = ((result) >> 8)

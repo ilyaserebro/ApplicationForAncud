@@ -2,7 +2,6 @@
 {
     partial class MainWindow
     {
-
         private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing)
@@ -23,6 +22,7 @@
             this.dgvFileCRC = new System.Windows.Forms.DataGridView();
             this.columnFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnCRC32 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addButton = new System.Windows.Forms.Button();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.deleteButton = new System.Windows.Forms.Button();
@@ -46,6 +46,7 @@
             this.dgvFileCRC.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFileCRC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFileCRC.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.columnId,
             this.columnFile,
             this.columnCRC32});
             this.tlpMain.SetColumnSpan(this.dgvFileCRC, 4);
@@ -73,6 +74,12 @@
             this.columnCRC32.HeaderText = "CRC32";
             this.columnCRC32.Name = "columnCRC32";
             this.columnCRC32.ReadOnly = true;
+            // 
+            // columnId
+            // 
+            this.columnId.HeaderText = "ID";
+            this.columnId.Name = "columnId";
+            this.columnId.Visible = false;
             // 
             // addButton
             // 
@@ -109,6 +116,7 @@
             // deleteButton
             // 
             this.deleteButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.deleteButton.Enabled = false;
             this.deleteButton.Location = new System.Drawing.Point(568, 293);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(94, 30);
@@ -149,6 +157,7 @@
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnFile;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnCRC32;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnId;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button helpButton;
     }
