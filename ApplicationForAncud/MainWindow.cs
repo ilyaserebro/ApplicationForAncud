@@ -67,8 +67,16 @@ namespace ApplicationForAncud
             mutex.WaitOne();
             foreach (DataGridViewRow row in dgvFileCRC.SelectedRows)
             {
-                DeleteNote(row);
+                try
+                {
+                    DeleteNote(row);
+                }
+                catch(Exception exc)
+                {
+                    MessageBox.Show(exc.Message, "Error");
+                }
             }
+            
             mutex.ReleaseMutex();
 
             deleteButton.Enabled = false;
@@ -149,10 +157,8 @@ namespace ApplicationForAncud
                     CancellationToken.None, TaskCreationOptions.None, contextUI);
 
                     //считаем CRC
-                    // Исключения ??
-
-                    Task<uint> calcCRC = Task.Run(() => CRCTools.CalculateCRC(currentFile.file,
-                        currentFile.token));
+                    Task<uint> calcCRC = Task.Factory.StartNew(() => CRCTools.CalculateCRC(currentFile.file,
+                        currentFile.token), currentFile.tokenSource.Token);
                     
                     //записываем CRC при удачном завершении задачи
                     calcCRC.ContinueWith((t) => SetCRC(currentFile.fileID,
@@ -188,7 +194,7 @@ namespace ApplicationForAncud
                     return row.Index;
                 }
             }
-            return -1;
+            throw new Exception("File was not fount in DataGridView");
         }
 
         private int FindFileInList(List<IDFileToken> list, string id)
@@ -201,7 +207,7 @@ namespace ApplicationForAncud
                     return index;
                 }
             }
-            return -1;
+            throw new Exception("File was not fount in Task List or in pending List");
         }
 
         private void SetComputingStatus(string fileID)
