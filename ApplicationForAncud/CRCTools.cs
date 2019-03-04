@@ -40,25 +40,13 @@ namespace ApplicationForAncud
             byte[] buffer = new byte[bufferSize];
             uint result = 0xFFFFFFFF;
             System.IO.FileStream stream;
-
-            try
-            {
-                 stream = System.IO.File.OpenRead(fileName);
-            }
-            catch(Exception exc)
-            {
-                return result;
-            }
-
+            stream = System.IO.File.OpenRead(fileName);
+            
             int count = stream.Read(buffer, 0, bufferSize);
 
             while (count > 0)
             {
-                if (cancelToken.IsCancellationRequested)
-                {
-                    return 0;
-                    //throw new Exception("Operation was canceled");
-                }
+                cancelToken.ThrowIfCancellationRequested();
 
                 for (int i = 0; i < count; i++)
                 {

@@ -50,15 +50,15 @@ namespace ApplicationForAncud
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog OPF = new OpenFileDialog();
+            OpenFileDialog opfAddFile = new OpenFileDialog();
 
-            OPF.Filter = "jpg|*.jpg|txt|*.txt|mkv|*.mkv";
-            OPF.Multiselect = true;
+            opfAddFile.Filter = "jpg|*.jpg|txt|*.txt|mkv|*.mkv";
+            opfAddFile.Multiselect = true;
 
-            if (OPF.ShowDialog() == DialogResult.OK)
+            if (opfAddFile.ShowDialog() == DialogResult.OK)
             {
                 deleteButton.Enabled = false;
-                AddPendingNote(OPF.FileNames);
+                AddPendingNote(opfAddFile.FileNames);
             }
         }
 
@@ -145,22 +145,27 @@ namespace ApplicationForAncud
                     mutex.ReleaseMutex();
 
                     //Меняем его статус на Computing
-                    Task setComputing = Task.Factory.StartNew(() =>
-                        SetComputingStatus(currentFile.fileID),
-                        CancellationToken.None, TaskCreationOptions.None, contextUI);
-
-                    //setComputing.Wait();
-                    // MessageBox.Show(Thread.CurrentThread.ManagedThreadId.ToString());
+                    Task.Factory.StartNew(() => SetComputingStatus(currentFile.fileID),
+                    CancellationToken.None, TaskCreationOptions.None, contextUI);
 
                     //считаем CRC
+                    // Исключения ??
 
-                    var calcCRC = Task.Run(() => CRCTools.CalculateCRC(currentFile.file,
+                    Task<uint> calcCRC = Task.Run(() => CRCTools.CalculateCRC(currentFile.file,
                         currentFile.token));
-
-                    //записываем CRC
+                    
+                    //записываем CRC при удачном завершении задачи
                     calcCRC.ContinueWith((t) => SetCRC(currentFile.fileID,
                         calcCRC.Result.ToString()), CancellationToken.None,
                         TaskContinuationOptions.OnlyOnRanToCompletion, contextUI);
+                    
+                    //если возникает исключение, то записываем его в столбец CRC   
+                    calcCRC.ContinueWith((handler) =>
+                    {
+                        string errorMessage = handler.Exception.InnerException.Message;
+                        SetCRC(currentFile.fileID, "Error: " + errorMessage);
+                    }, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted,
+                       contextUI);
 
                     //удаляем из списка текущих задач
                     calcCRC.ContinueWith((t) =>
@@ -189,11 +194,11 @@ namespace ApplicationForAncud
         private int FindFileInList(List<IDFileToken> list, string id)
         {
 
-            for (int i = 0; i < list.Count; ++i)
+            for (int index = 0; index < list.Count; ++index)
             {
-                if (list[i].fileID == id)
+                if (list[index].fileID == id)
                 {
-                    return i;
+                    return index;
                 }
             }
             return -1;
